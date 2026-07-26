@@ -3,6 +3,7 @@ from django.db.models import Sum
 from django.shortcuts import render
 
 from alerts.models import FraudAlert
+from savings.models import SavingsGoal
 from transactions.models import Transaction
 from userhistory.models import UserActivity
 
@@ -21,6 +22,7 @@ def dashboard(request):
     open_alert_count = FraudAlert.objects.filter(user=request.user, is_resolved=False).count()
     recent_alerts = FraudAlert.objects.filter(user=request.user, is_resolved=False)[:3]
     recent_activity = UserActivity.objects.filter(user=request.user).first()
+    active_savings_goals = SavingsGoal.objects.filter(user=request.user, is_completed=False)
 
     context = {
         'income_total': income_total,
@@ -33,5 +35,7 @@ def dashboard(request):
         'visit_count': request.session.get('visit_count', 0),
         'previous_visit': request.session.get('previous_visit'),
         'recent_activity': recent_activity,
+        'active_savings_count': active_savings_goals.count(),
+        'next_savings_goal': active_savings_goals.first(),
     }
     return render(request, 'core/dashboard.html', context)

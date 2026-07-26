@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}Savings Goals | FinGuard{% endblock %}
+
+{% block content %}
+<section class="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+            <p class="text-sm font-semibold uppercase text-finance-700">Savings goals</p>
+            <h1 class="mt-2 text-3xl font-bold text-slate-950">Plan future purchases</h1>
+            <p class="mt-3 max-w-2xl text-slate-600">Track target amounts, saved amounts, and progress in Canadian dollars.</p>
+        </div>
+        <a href="{% url 'savings_goal_create' %}" class="inline-flex justify-center rounded-md bg-finance-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-finance-700">
+            Add goal
+        </a>
+    </div>
+
+    <div class="mt-8 grid gap-4 sm:grid-cols-2">
+        <div class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+            <p class="text-sm text-slate-500">Active goals</p>
+            <p class="mt-2 text-3xl font-bold text-slate-950">{{ active_count }}</p>
+        </div>
+        <div class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+            <p class="text-sm text-slate-500">Completed goals</p>
+            <p class="mt-2 text-3xl font-bold text-finance-700">{{ completed_count }}</p>
+        </div>
+    </div>
+
+    <div class="mt-8 grid gap-4 md:grid-cols-2">
+        {% for goal in goals %}
+            <div class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+                <div class="flex items-start justify-between gap-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-950">{{ goal.name }}</h2>
+                        <p class="mt-1 text-sm text-slate-500">
+                            {% if goal.target_date %}Target: {{ goal.target_date }}{% else %}No target date{% endif %}
+                        </p>
+                    </div>
+                    {% if goal.is_completed %}
+                        <span class="rounded-full bg-finance-100 px-3 py-1 text-xs font-semibold text-finance-700">Completed</span>
+                    {% elif goal.is_overdue %}
+                        <span class="rounded-full bg-rose-50 px-3 py-1 text-xs font-semibold text-rose-700">Overdue</span>
+                    {% else %}
+                        <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">Active</span>
+                    {% endif %}
+                </div>
+
+                <div class="mt-5">
+                    <div class="mb-2 flex justify-between text-sm">
+                        <span class="text-slate-600">CAD {{ goal.current_amount|floatformat:2 }} saved</span>
+                        <span class="font-medium text-slate-900">{{ goal.progress_percent }}%</span>
+                    </div>
+                    <div class="h-3 rounded-full bg-slate-100">
+                        <div class="h-3 rounded-full bg-finance-600" style="width: {{ goal.progress_percent }}%;"></div>
+                    </div>
+                    <p class="mt-2 text-sm text-slate-500">Remaining: CAD {{ goal.remaining_amount|floatformat:2 }} of CAD {{ goal.target_amount|floatformat:2 }}</p>
+                </div>
+
+                <div class="mt-5 flex gap-3">
+                    <a href="{% url 'savings_goal_update' goal.pk %}" class="font-semibold text-finance-700 hover:text-finance-900">Edit</a>
+                    <a href="{% url 'savings_goal_delete' goal.pk %}" class="font-semibold text-rose-700 hover:text-rose-900">Delete</a>
+                </div>
+            </div>
+        {% empty %}
+            <div class="rounded-lg border border-slate-200 bg-white p-8 text-center shadow-soft md:col-span-2">
+                <h2 class="text-xl font-bold text-slate-950">No savings goals yet</h2>
+                <p class="mt-2 text-sm text-slate-600">Create a goal for an emergency fund, tuition, travel, or a future purchase.</p>
+                <a href="{% url 'savings_goal_create' %}" class="mt-5 inline-flex rounded-md bg-finance-600 px-5 py-3 text-sm font-semibold text-white hover:bg-finance-700">Add first goal</a>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

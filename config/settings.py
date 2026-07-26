@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'transactions',
     'alerts',
     'userhistory',
+    'savings',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

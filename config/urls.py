@@ -29,6 +29,7 @@ urlpatterns = [
     path('budgets/', include('budgets.urls')),
     path('alerts/', include('alerts.urls')),
     path('history/', include('userhistory.urls')),
+    path('savings/', include('savings.urls')),
     path('admin/', admin.site.urls),
 ]
 

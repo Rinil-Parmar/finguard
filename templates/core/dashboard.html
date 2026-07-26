@@ -74,6 +74,35 @@
         </div>
     </div>
 
+    <div class="mt-8 rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+                <h2 class="text-xl font-bold text-slate-950">Savings goals</h2>
+                <p class="mt-1 text-sm text-slate-600">
+                    {% if next_savings_goal %}
+                        Next goal: {{ next_savings_goal.name }} is {{ next_savings_goal.progress_percent }}% complete.
+                    {% else %}
+                        Add a savings goal to track progress toward future plans.
+                    {% endif %}
+                </p>
+            </div>
+            <a href="{% url 'savings_goal_list' %}" class="inline-flex justify-center rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-finance-600 hover:text-finance-700">
+                View savings
+            </a>
+        </div>
+        {% if next_savings_goal %}
+            <div class="mt-5">
+                <div class="mb-2 flex justify-between text-sm">
+                    <span class="text-slate-600">CAD {{ next_savings_goal.current_amount|floatformat:2 }} saved</span>
+                    <span class="font-medium text-slate-900">{{ next_savings_goal.progress_percent }}%</span>
+                </div>
+                <div class="h-3 rounded-full bg-slate-100">
+                    <div class="h-3 rounded-full bg-finance-600" style="width: {{ next_savings_goal.progress_percent }}%;"></div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
     <div class="mt-8 rounded-lg border border-slate-200 bg-white shadow-soft">
         <div class="flex flex-col gap-3 border-b border-slate-200 p-5 sm:flex-row sm:items-center sm:justify-between">
             <div>
