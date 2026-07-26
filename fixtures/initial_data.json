@@ -1,0 +1,79 @@
+[
+  {
+    "model": "auth.user",
+    "pk": 1001,
+    "fields": {
+      "password": "!",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "demo_user",
+      "first_name": "Demo",
+      "last_name": "User",
+      "email": "demo@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-07-26T00:00:00Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "transactions.transaction",
+    "pk": 1,
+    "fields": {
+      "user": 1001,
+      "title": "Salary",
+      "amount": "3500.00",
+      "transaction_type": "income",
+      "category": "salary",
+      "date": "2026-07-01",
+      "notes": "Monthly salary demo record.",
+      "receipt": "",
+      "created_at": "2026-07-26T00:00:00Z",
+      "updated_at": "2026-07-26T00:00:00Z"
+    }
+  },
+  {
+    "model": "transactions.transaction",
+    "pk": 2,
+    "fields": {
+      "user": 1001,
+      "title": "Groceries",
+      "amount": "125.50",
+      "transaction_type": "expense",
+      "category": "groceries",
+      "date": "2026-07-05",
+      "notes": "Weekly grocery demo record.",
+      "receipt": "",
+      "created_at": "2026-07-26T00:00:00Z",
+      "updated_at": "2026-07-26T00:00:00Z"
+    }
+  },
+  {
+    "model": "budgets.budget",
+    "pk": 1,
+    "fields": {
+      "user": 1001,
+      "month": 7,
+      "year": 2026,
+      "amount": "900.00",
+      "created_at": "2026-07-26T00:00:00Z",
+      "updated_at": "2026-07-26T00:00:00Z"
+    }
+  },
+  {
+    "model": "savings.savingsgoal",
+    "pk": 1,
+    "fields": {
+      "user": 1001,
+      "name": "Emergency fund",
+      "target_amount": "1000.00",
+      "current_amount": "250.00",
+      "target_date": "2026-12-31",
+      "notes": "Demo savings goal.",
+      "is_completed": false,
+      "created_at": "2026-07-26T00:00:00Z",
+      "updated_at": "2026-07-26T00:00:00Z"
+    }
+  }
+]
