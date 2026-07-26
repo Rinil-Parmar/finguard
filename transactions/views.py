@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import TransactionForm
@@ -8,6 +9,24 @@ from .models import Transaction
 @login_required
 def transaction_list(request):
     transactions = Transaction.objects.filter(user=request.user)
+    query = request.GET.get('q', '').strip()
+    transaction_type = request.GET.get('type', '').strip()
+    category = request.GET.get('category', '').strip()
+
+    if query:
+        transactions = transactions.filter(
+            Q(title__icontains=query)
+            | Q(notes__icontains=query)
+            | Q(category__icontains=query)
+        )
+
+    if transaction_type in [Transaction.INCOME, Transaction.EXPENSE]:
+        transactions = transactions.filter(transaction_type=transaction_type)
+
+    valid_categories = [choice[0] for choice in Transaction.CATEGORY_CHOICES]
+    if category in valid_categories:
+        transactions = transactions.filter(category=category)
+
     income_total = sum(item.amount for item in transactions if item.transaction_type == Transaction.INCOME)
     expense_total = sum(item.amount for item in transactions if item.transaction_type == Transaction.EXPENSE)
     balance = income_total - expense_total
@@ -17,6 +36,12 @@ def transaction_list(request):
         'income_total': income_total,
         'expense_total': expense_total,
         'balance': balance,
+        'query': query,
+        'selected_type': transaction_type,
+        'selected_category': category,
+        'transaction_types': Transaction.TRANSACTION_TYPES,
+        'categories': Transaction.CATEGORY_CHOICES,
+        'has_filters': bool(query or transaction_type or category),
     }
     return render(request, 'transactions/transaction_list.html', context)
 
