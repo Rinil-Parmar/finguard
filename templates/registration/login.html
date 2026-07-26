@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Login | FinGuard{% endblock %}
+
+{% block content %}
+<section class="mx-auto flex min-h-[calc(100vh-150px)] max-w-md items-center px-4 py-10 sm:px-6">
+    <div class="w-full rounded-lg border border-slate-200 bg-white p-6 shadow-soft">
+        <p class="text-sm font-semibold uppercase text-finance-700">Welcome back</p>
+        <h1 class="mt-2 text-3xl font-bold text-slate-950">Login to FinGuard</h1>
+
+        {% if form.errors %}
+            <div class="mt-5 rounded-md border border-rose-200 bg-rose-50 p-3 text-sm text-rose-700">
+                Your username or password is incorrect. Please try again.
+            </div>
+        {% endif %}
+
+        <form method="post" class="mt-6 space-y-5">
+            {% csrf_token %}
+            <div>
+                <label for="{{ form.username.id_for_label }}" class="mb-1 block text-sm font-medium text-slate-700">Username</label>
+                <input type="text" name="{{ form.username.name }}" id="{{ form.username.id_for_label }}" required class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm outline-none focus:border-finance-600 focus:ring-2 focus:ring-finance-100">
+            </div>
+            <div>
+                <label for="{{ form.password.id_for_label }}" class="mb-1 block text-sm font-medium text-slate-700">Password</label>
+                <input type="password" name="{{ form.password.name }}" id="{{ form.password.id_for_label }}" required class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm outline-none focus:border-finance-600 focus:ring-2 focus:ring-finance-100">
+            </div>
+            <button type="submit" class="w-full rounded-md bg-finance-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-finance-700">
+                Login
+            </button>
+        </form>
+
+        <div class="mt-5 flex flex-col gap-2 text-sm text-slate-600 sm:flex-row sm:items-center sm:justify-between">
+            <a href="{% url 'password_reset' %}" class="font-semibold text-finance-700 hover:text-finance-900">Forgot password?</a>
+            <span>
+                New here?
+                <a href="{% url 'register' %}" class="font-semibold text-finance-700 hover:text-finance-900">Register</a>
+            </span>
+        </div>
+    </div>
+</section>
+{% endblock %}
