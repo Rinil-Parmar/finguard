@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}FinGuard{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+</head>
+<body class="min-h-screen bg-[#f6f8fb] text-slate-900 antialiased">
+    <header class="sticky top-0 z-20 border-b border-slate-200 bg-white/95 backdrop-blur">
+        <nav class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-4 sm:flex-nowrap sm:px-6 lg:px-8">
+            <a href="{% url 'home' %}" class="flex items-center gap-2 text-xl font-bold text-slate-950">
+                <span class="grid h-9 w-9 place-items-center rounded-md bg-finance-700 text-sm font-bold text-white">FG</span>
+                FinGuard
+            </a>
+            <div class="flex w-full items-center justify-between gap-3 text-sm font-medium text-slate-600 sm:w-auto sm:justify-end sm:gap-5">
+                <a href="{% url 'home' %}" class="hover:text-finance-700">Home</a>
+                <a href="#" class="hidden hover:text-finance-700 sm:inline">Features</a>
+                <a href="#" class="hover:text-finance-700">Login</a>
+                <a href="#" class="rounded-md bg-finance-600 px-4 py-2 text-white shadow-sm hover:bg-finance-700">Register</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="border-t border-slate-200 bg-white">
+        <div class="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-6 text-sm text-slate-500 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
+            <p>&copy; 2026 FinGuard. Personal finance tracking platform.</p>
+            <div class="flex gap-4">
+                <a href="#" class="hover:text-finance-700">About</a>
+                <a href="#" class="hover:text-finance-700">Privacy</a>
+                <a href="#" class="hover:text-finance-700">Contact</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
