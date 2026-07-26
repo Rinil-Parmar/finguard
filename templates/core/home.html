@@ -15,10 +15,17 @@
                 FinGuard helps users record income and expenses, upload receipts, manage monthly budgets,
                 and review rule-based alerts from one secure Django dashboard.
             </p>
-            <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-                <a href="#" class="inline-flex justify-center rounded-md bg-finance-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-finance-700">Create account</a>
-                <a href="#" class="inline-flex justify-center rounded-md border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 hover:border-finance-600 hover:text-finance-700">Login</a>
-            </div>
+            {% if user.is_authenticated %}
+            <a class="inline-flex justify-center rounded-md bg-finance-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-finance-700"
+               href="{% url 'dashboard' %}">Go
+                to dashboard</a>
+            {% else %}
+            <a class="inline-flex justify-center rounded-md bg-finance-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-finance-700"
+               href="{% url 'register' %}">Create
+                account</a>
+            <a class="inline-flex justify-center rounded-md border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 hover:border-finance-600 hover:text-finance-700"
+               href="{% url 'login' %}">Login</a>
+            {% endif %}
             <dl class="mt-9 grid grid-cols-3 gap-3 border-t border-slate-200 pt-6">
                 <div>
                     <dt class="text-xs font-medium text-slate-500">Income</dt>
@@ -106,19 +113,23 @@
         <div class="grid gap-4 sm:grid-cols-2 md:col-span-3">
             <div class="rounded-lg border border-slate-200 p-5">
                 <p class="font-semibold text-slate-950">Transactions</p>
-                <p class="mt-2 text-sm leading-6 text-slate-600">Add, edit, delete, search, and filter income or expenses by category.</p>
+                <p class="mt-2 text-sm leading-6 text-slate-600">Add, edit, delete, search, and filter income or
+                    expenses by category.</p>
             </div>
             <div class="rounded-lg border border-slate-200 p-5">
                 <p class="font-semibold text-slate-950">Budgets</p>
-                <p class="mt-2 text-sm leading-6 text-slate-600">Set a monthly budget and compare spending against the limit.</p>
+                <p class="mt-2 text-sm leading-6 text-slate-600">Set a monthly budget and compare spending against the
+                    limit.</p>
             </div>
             <div class="rounded-lg border border-slate-200 p-5">
                 <p class="font-semibold text-slate-950">Uploads</p>
-                <p class="mt-2 text-sm leading-6 text-slate-600">Attach receipts or documents to keep financial records organized.</p>
+                <p class="mt-2 text-sm leading-6 text-slate-600">Attach receipts or documents to keep financial records
+                    organized.</p>
             </div>
             <div class="rounded-lg border border-slate-200 p-5">
                 <p class="font-semibold text-slate-950">Fraud alerts</p>
-                <p class="mt-2 text-sm leading-6 text-slate-600">Flag duplicate, unusually large, or abnormal transactions for review.</p>
+                <p class="mt-2 text-sm leading-6 text-slate-600">Flag duplicate, unusually large, or abnormal
+                    transactions for review.</p>
             </div>
         </div>
     </div>
@@ -135,7 +146,9 @@
                     search, uploads, user history, and a responsive interface.
                 </p>
             </div>
-            <a href="#" class="inline-flex justify-center rounded-md bg-white px-5 py-3 text-sm font-semibold text-slate-950 hover:bg-slate-100">Start tracking</a>
+            <a class="inline-flex justify-center rounded-md bg-white px-5 py-3 text-sm font-semibold text-slate-950 hover:bg-slate-100"
+               href="#">Start
+                tracking</a>
         </div>
     </div>
 </section>
