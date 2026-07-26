@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Privacy | FinGuard{% endblock %}
+
+{% block content %}
+<section class="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+    <p class="text-sm font-semibold uppercase text-finance-700">Privacy</p>
+    <h1 class="mt-2 text-3xl font-bold text-slate-950">How FinGuard handles user data</h1>
+    <div class="mt-6 space-y-4 text-slate-600">
+        <p>FinGuard stores only the financial information users choose to enter, such as transactions, budgets, savings goals, uploaded receipts, and account activity history.</p>
+        <p>The application does not connect to bank accounts and does not use third-party banking APIs. Uploaded receipts are linked to the account that created them.</p>
+        <p>Sessions and cookies are used for login status, visit tracking, and user history features required for the project demonstration.</p>
+    </div>
+</section>
+{% endblock %}
