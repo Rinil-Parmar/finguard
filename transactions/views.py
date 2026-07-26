@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.exceptions import SuspiciousOperation
 from django.db.models import Q
+from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404, redirect, render
 
 from alerts.services import analyze_transaction
@@ -105,6 +106,21 @@ def transaction_update(request, pk):
         'page_title': 'Edit transaction',
         'button_label': 'Update transaction',
     })
+
+
+@login_required
+def transaction_receipt(request, pk):
+    transaction = get_object_or_404(Transaction, pk=pk, user=request.user)
+    if not transaction.receipt:
+        raise Http404('Receipt not found.')
+
+    try:
+        receipt_file = transaction.receipt.open('rb')
+    except (FileNotFoundError, OSError, ValueError):
+        raise Http404('Receipt file not found.')
+
+    filename = transaction.receipt.name.rsplit('/', 1)[-1]
+    return FileResponse(receipt_file, as_attachment=False, filename=filename)
 
 
 @login_required

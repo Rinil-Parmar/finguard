@@ -97,7 +97,7 @@
                                 <td class="px-4 py-4 font-semibold text-slate-950">CAD {{ transaction.amount|floatformat:2 }}</td>
                                 <td class="px-4 py-4">
                                     {% if transaction.receipt %}
-                                        <a href="{{ transaction.receipt.url }}" class="font-semibold text-finance-700 hover:text-finance-900" target="_blank">View</a>
+                                        <a href="{% url 'transaction_receipt' transaction.pk %}" class="font-semibold text-finance-700 hover:text-finance-900" target="_blank">View</a>
                                     {% else %}
                                         <span class="text-slate-400">None</span>
                                     {% endif %}
