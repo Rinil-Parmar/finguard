@@ -29,6 +29,43 @@
         </div>
     </div>
 
+    <form method="get" class="mt-8 rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+        <div class="grid gap-4 lg:grid-cols-[1fr_220px_220px_auto] lg:items-end">
+            <div>
+                <label for="q" class="mb-1 block text-sm font-medium text-slate-700">Search</label>
+                <input type="search" name="q" id="q" value="{{ query }}" placeholder="Search title, notes, or category" class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm outline-none focus:border-finance-600 focus:ring-2 focus:ring-finance-100">
+            </div>
+            <div>
+                <label for="type" class="mb-1 block text-sm font-medium text-slate-700">Type</label>
+                <select name="type" id="type" class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm outline-none focus:border-finance-600 focus:ring-2 focus:ring-finance-100">
+                    <option value="">All types</option>
+                    {% for value, label in transaction_types %}
+                        <option value="{{ value }}" {% if selected_type == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="category" class="mb-1 block text-sm font-medium text-slate-700">Category</label>
+                <select name="category" id="category" class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm outline-none focus:border-finance-600 focus:ring-2 focus:ring-finance-100">
+                    <option value="">All categories</option>
+                    {% for value, label in categories %}
+                        <option value="{{ value }}" {% if selected_category == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="flex gap-3">
+                <button type="submit" class="inline-flex justify-center rounded-md bg-finance-600 px-5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-finance-700">
+                    Search
+                </button>
+                {% if has_filters %}
+                    <a href="{% url 'transaction_list' %}" class="inline-flex justify-center rounded-md border border-slate-300 bg-white px-5 py-2 text-sm font-semibold text-slate-700 hover:border-finance-600 hover:text-finance-700">
+                        Clear
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </form>
+
     <div class="mt-8 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-soft">
         {% if transactions %}
             <div class="overflow-x-auto">
@@ -78,9 +115,15 @@
             </div>
         {% else %}
             <div class="p-8 text-center">
-                <h2 class="text-xl font-bold text-slate-950">No transactions yet</h2>
-                <p class="mt-2 text-sm text-slate-600">Add your first income or expense record to start building your dashboard.</p>
-                <a href="{% url 'transaction_create' %}" class="mt-5 inline-flex rounded-md bg-finance-600 px-5 py-3 text-sm font-semibold text-white hover:bg-finance-700">Add transaction</a>
+                {% if has_filters %}
+                    <h2 class="text-xl font-bold text-slate-950">No matching transactions</h2>
+                    <p class="mt-2 text-sm text-slate-600">Try a different keyword, type, or category.</p>
+                    <a href="{% url 'transaction_list' %}" class="mt-5 inline-flex rounded-md bg-finance-600 px-5 py-3 text-sm font-semibold text-white hover:bg-finance-700">Clear filters</a>
+                {% else %}
+                    <h2 class="text-xl font-bold text-slate-950">No transactions yet</h2>
+                    <p class="mt-2 text-sm text-slate-600">Add your first income or expense record to start building your dashboard.</p>
+                    <a href="{% url 'transaction_create' %}" class="mt-5 inline-flex rounded-md bg-finance-600 px-5 py-3 text-sm font-semibold text-white hover:bg-finance-700">Add transaction</a>
+                {% endif %}
             </div>
         {% endif %}
     </div>
