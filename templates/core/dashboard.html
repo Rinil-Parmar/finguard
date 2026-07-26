@@ -8,8 +8,16 @@
         <p class="text-sm font-semibold uppercase text-finance-700">Dashboard</p>
         <h1 class="mt-2 text-3xl font-bold text-slate-950">Welcome to FinGuard</h1>
         <p class="mt-3 max-w-2xl text-slate-600">
-            Your transaction tracking, budgets, uploads, and fraud alerts will appear here as we build the next features.
+            Start by adding your income and expenses. FinGuard will use those records for budgets, summaries, and alerts.
         </p>
+        <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+            <a href="{% url 'transaction_create' %}" class="inline-flex justify-center rounded-md bg-finance-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-finance-700">
+                Add transaction
+            </a>
+            <a href="{% url 'transaction_list' %}" class="inline-flex justify-center rounded-md border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 hover:border-finance-600 hover:text-finance-700">
+                View transactions
+            </a>
+        </div>
     </div>
 </section>
 {% endblock %}

@@ -26,6 +26,9 @@ share/python-wheels/
 *.egg
 MANIFEST
 
+# User uploads
+media/
+
 # Node / Tailwind
 node_modules/
 
