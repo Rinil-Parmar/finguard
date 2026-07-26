@@ -22,6 +22,7 @@
             <a class="hover:text-finance-700" href="{% url 'transaction_list' %}">Transactions</a>
             <a class="hover:text-finance-700" href="{% url 'budget_detail' %}">Budget</a>
             <a class="hover:text-finance-700" href="{% url 'alert_list' %}">Alerts</a>
+            <a class="hover:text-finance-700" href="{% url 'history_detail' %}">History</a>
             <form action="{% url 'logout' %}" method="post">
                 {% csrf_token %}
                 <button class="rounded-md bg-slate-950 px-4 py-2 text-white shadow-sm hover:bg-slate-800" type="submit">
