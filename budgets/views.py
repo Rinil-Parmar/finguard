@@ -1,6 +1,7 @@
 from decimal import Decimal
 
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.db.models import Sum
 from django.shortcuts import redirect, render
 from django.utils import timezone
@@ -57,6 +58,7 @@ def budget_set(request):
             submitted_budget = form.save(commit=False)
             submitted_budget.user = request.user
             submitted_budget.save()
+            messages.success(request, 'Monthly budget saved successfully.')
             return redirect('budget_detail')
     else:
         form = BudgetForm(

@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -57,6 +58,7 @@ def transaction_create(request):
             transaction.user = request.user
             transaction.save()
             analyze_transaction(transaction)
+            messages.success(request, 'Transaction added successfully.')
             return redirect('transaction_list')
     else:
         form = TransactionForm()
@@ -76,6 +78,7 @@ def transaction_update(request, pk):
         if form.is_valid():
             transaction = form.save()
             analyze_transaction(transaction)
+            messages.success(request, 'Transaction updated successfully.')
             return redirect('transaction_list')
     else:
         form = TransactionForm(instance=transaction)
@@ -92,6 +95,7 @@ def transaction_delete(request, pk):
     transaction = get_object_or_404(Transaction, pk=pk, user=request.user)
     if request.method == 'POST':
         transaction.delete()
+        messages.success(request, 'Transaction deleted successfully.')
         return redirect('transaction_list')
 
     return render(request, 'transactions/transaction_confirm_delete.html', {

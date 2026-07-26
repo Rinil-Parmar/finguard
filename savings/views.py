@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import SavingsGoalForm
@@ -26,6 +27,7 @@ def savings_goal_create(request):
             goal = form.save(commit=False)
             goal.user = request.user
             goal.save()
+            messages.success(request, 'Savings goal added successfully.')
             return redirect('savings_goal_list')
     else:
         form = SavingsGoalForm()
@@ -44,6 +46,7 @@ def savings_goal_update(request, pk):
         form = SavingsGoalForm(request.POST, instance=goal)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Savings goal updated successfully.')
             return redirect('savings_goal_list')
     else:
         form = SavingsGoalForm(instance=goal)
@@ -60,6 +63,7 @@ def savings_goal_delete(request, pk):
     goal = get_object_or_404(SavingsGoal, pk=pk, user=request.user)
     if request.method == 'POST':
         goal.delete()
+        messages.success(request, 'Savings goal deleted successfully.')
         return redirect('savings_goal_list')
 
     return render(request, 'savings/savings_goal_confirm_delete.html', {'goal': goal})

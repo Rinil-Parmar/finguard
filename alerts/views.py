@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .models import FraudAlert
@@ -23,4 +24,5 @@ def alert_resolve(request, pk):
     if request.method == 'POST':
         alert.is_resolved = True
         alert.save(update_fields=['is_resolved', 'updated_at'])
+        messages.success(request, 'Alert marked as resolved.')
     return redirect('alert_list')
