@@ -22,6 +22,7 @@ python -m venv .venv
 pip install -r requirements.txt
 npm install
 python manage.py migrate
+python manage.py loaddata initial_data
 npm run build:css
 python manage.py runserver
 ```
@@ -39,7 +40,15 @@ python manage.py createsuperuser
 python manage.py check
 python manage.py test
 npm run build:css
+python manage.py loaddata initial_data
 ```
+
+## Coursework Coverage
+
+- Models, views, templates, forms, authentication, sessions, cookies, uploads, search, and CRUD are included.
+- Initial demo data is stored in `fixtures/initial_data.json` and can be loaded with `python manage.py loaddata initial_data`.
+- Core landing and dashboard pages use Django class-based views.
+- The UI uses Tailwind CSS for a responsive professional interface.
 
 ## Environment Variables
 
