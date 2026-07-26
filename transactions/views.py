@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.core.exceptions import SuspiciousOperation
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -56,7 +57,15 @@ def transaction_create(request):
         if form.is_valid():
             transaction = form.save(commit=False)
             transaction.user = request.user
-            transaction.save()
+            try:
+                transaction.save()
+            except (OSError, SuspiciousOperation):
+                form.add_error('receipt', 'Receipt upload failed. Try a smaller PDF or upload JPG/PNG instead.')
+                return render(request, 'transactions/transaction_form.html', {
+                    'form': form,
+                    'page_title': 'Add transaction',
+                    'button_label': 'Save transaction',
+                })
             analyze_transaction(transaction)
             messages.success(request, 'Transaction added successfully.')
             return redirect('transaction_list')
@@ -76,7 +85,15 @@ def transaction_update(request, pk):
     if request.method == 'POST':
         form = TransactionForm(request.POST, request.FILES, instance=transaction)
         if form.is_valid():
-            transaction = form.save()
+            try:
+                transaction = form.save()
+            except (OSError, SuspiciousOperation):
+                form.add_error('receipt', 'Receipt upload failed. Try a smaller PDF or upload JPG/PNG instead.')
+                return render(request, 'transactions/transaction_form.html', {
+                    'form': form,
+                    'page_title': 'Edit transaction',
+                    'button_label': 'Update transaction',
+                })
             analyze_transaction(transaction)
             messages.success(request, 'Transaction updated successfully.')
             return redirect('transaction_list')
