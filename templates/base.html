@@ -7,7 +7,7 @@
     <title>{% block title %}FinGuard{% endblock %}</title>
     <link href="{% static 'css/output.css' %}" rel="stylesheet">
 </head>
-<body class="min-h-screen bg-[#f6f8fb] text-slate-900 antialiased">
+<body class="flex min-h-screen flex-col bg-[#f6f8fb] text-slate-900 antialiased">
 <header class="sticky top-0 z-20 border-b border-slate-200 bg-white/95 backdrop-blur">
     <nav class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-4 sm:flex-nowrap sm:px-6 lg:px-8">
         <a class="flex items-center gap-2 text-xl font-bold text-slate-950" href="{% url 'home' %}">
@@ -21,6 +21,7 @@
             <a class="hover:text-finance-700" href="{% url 'dashboard' %}">Dashboard</a>
             <a class="hover:text-finance-700" href="{% url 'transaction_list' %}">Transactions</a>
             <a class="hover:text-finance-700" href="{% url 'budget_detail' %}">Budget</a>
+            <a class="hover:text-finance-700" href="{% url 'alert_list' %}">Alerts</a>
             <form action="{% url 'logout' %}" method="post">
                 {% csrf_token %}
                 <button class="rounded-md bg-slate-950 px-4 py-2 text-white shadow-sm hover:bg-slate-800" type="submit">
@@ -36,7 +37,7 @@
     </nav>
 </header>
 
-<main>
+<main class="flex-1">
     {% block content %}{% endblock %}
 </main>
 
