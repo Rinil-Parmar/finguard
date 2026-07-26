@@ -2,6 +2,8 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 
+from alerts.services import analyze_transaction
+
 from .forms import TransactionForm
 from .models import Transaction
 
@@ -54,6 +56,7 @@ def transaction_create(request):
             transaction = form.save(commit=False)
             transaction.user = request.user
             transaction.save()
+            analyze_transaction(transaction)
             return redirect('transaction_list')
     else:
         form = TransactionForm()
@@ -71,7 +74,8 @@ def transaction_update(request, pk):
     if request.method == 'POST':
         form = TransactionForm(request.POST, request.FILES, instance=transaction)
         if form.is_valid():
-            form.save()
+            transaction = form.save()
+            analyze_transaction(transaction)
             return redirect('transaction_list')
     else:
         form = TransactionForm(instance=transaction)
