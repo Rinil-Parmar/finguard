@@ -8,7 +8,7 @@ from transactions.models import Transaction
 
 class CorePageTests(TestCase):
     def test_public_pages_load(self):
-        for url_name in ('home', 'about', 'contact'):
+        for url_name in ('home', 'about', 'privacy', 'contact'):
             with self.subTest(url_name=url_name):
                 response = self.client.get(reverse(url_name))
                 self.assertEqual(response.status_code, 200)
