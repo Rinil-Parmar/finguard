@@ -56,8 +56,25 @@
                     <p class="mt-2 text-sm text-slate-500">Remaining: CAD {{ goal.remaining_amount|floatformat:2 }} of CAD {{ goal.target_amount|floatformat:2 }}</p>
                 </div>
 
-                <div class="mt-5 flex gap-3">
+                {% if not goal.is_completed %}
+                    <form method="post" action="{% url 'savings_goal_add_contribution' goal.pk %}" class="mt-5 rounded-md bg-slate-50 p-4">
+                        {% csrf_token %}
+                        <label for="saving-{{ goal.pk }}" class="mb-2 block text-sm font-semibold text-slate-700">This month saving (CAD)</label>
+                        <div class="grid gap-3 sm:grid-cols-[1fr_auto]">
+                            <input id="saving-{{ goal.pk }}" name="amount" type="number" min="0.01" step="0.01" placeholder="100.00" required class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm outline-none focus:border-finance-600 focus:ring-2 focus:ring-finance-100">
+                            <button type="submit" class="rounded-md bg-finance-600 px-4 py-2 text-sm font-semibold text-white hover:bg-finance-700">Add saving</button>
+                        </div>
+                    </form>
+                {% endif %}
+
+                <div class="mt-5 flex flex-wrap items-center gap-3">
                     <a href="{% url 'savings_goal_update' goal.pk %}" class="font-semibold text-finance-700 hover:text-finance-900">Edit</a>
+                    {% if not goal.is_completed %}
+                        <form method="post" action="{% url 'savings_goal_complete' goal.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="font-semibold text-slate-700 hover:text-slate-950">Complete goal</button>
+                        </form>
+                    {% endif %}
                     <a href="{% url 'savings_goal_delete' goal.pk %}" class="font-semibold text-rose-700 hover:text-rose-900">Delete</a>
                 </div>
             </div>

@@ -1,5 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
+from django.core.validators import MinValueValidator
 
 from .models import SavingsGoal
 
@@ -37,3 +38,12 @@ class SavingsGoalForm(forms.ModelForm):
             raise ValidationError('Current saved amount cannot be greater than the target amount.')
 
         return cleaned_data
+
+
+class SavingsContributionForm(forms.Form):
+    amount = forms.DecimalField(
+        label='This month saving (CAD)',
+        max_digits=10,
+        decimal_places=2,
+        validators=[MinValueValidator(0.01)],
+    )
