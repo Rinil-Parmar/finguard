@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import SavingsGoalForm
+from .forms import SavingsContributionForm, SavingsGoalForm
 from .models import SavingsGoal
 
 
@@ -67,3 +67,28 @@ def savings_goal_delete(request, pk):
         return redirect('savings_goal_list')
 
     return render(request, 'savings/savings_goal_confirm_delete.html', {'goal': goal})
+
+
+@login_required
+def savings_goal_add_contribution(request, pk):
+    goal = get_object_or_404(SavingsGoal, pk=pk, user=request.user)
+    if request.method == 'POST':
+        form = SavingsContributionForm(request.POST)
+        if form.is_valid():
+            goal.current_amount = min(goal.current_amount + form.cleaned_data['amount'], goal.target_amount)
+            if goal.current_amount >= goal.target_amount:
+                goal.is_completed = True
+            goal.save(update_fields=['current_amount', 'is_completed', 'updated_at'])
+            messages.success(request, 'Monthly saving added successfully.')
+    return redirect('savings_goal_list')
+
+
+@login_required
+def savings_goal_complete(request, pk):
+    goal = get_object_or_404(SavingsGoal, pk=pk, user=request.user)
+    if request.method == 'POST':
+        goal.current_amount = goal.target_amount
+        goal.is_completed = True
+        goal.save(update_fields=['current_amount', 'is_completed', 'updated_at'])
+        messages.success(request, 'Savings goal marked as completed.')
+    return redirect('savings_goal_list')

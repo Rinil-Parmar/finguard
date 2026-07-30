@@ -26,7 +26,7 @@ class UserHistoryMiddleware:
 
         response.set_cookie(
             'last_visit',
-            timezone.localtime().strftime('%Y-%m-%d %H:%M:%S'),
+            timezone.localtime().strftime('%B %d, %Y, %I:%M %p').replace(' 0', ' '),
             max_age=60 * 60 * 24 * 30,
             samesite='Lax',
         )

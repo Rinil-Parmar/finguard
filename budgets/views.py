@@ -32,12 +32,14 @@ def budget_detail(request):
     used_percent = 0
     if budget_amount > 0:
         used_percent = min(round((monthly_expenses / budget_amount) * 100), 100)
+    is_over_budget = budget_amount > 0 and monthly_expenses > budget_amount
 
     return render(request, 'budgets/budget_detail.html', {
         'budget': budget,
         'monthly_expenses': monthly_expenses,
         'remaining': remaining,
         'used_percent': used_percent,
+        'is_over_budget': is_over_budget,
         'month': today.strftime('%B'),
         'year': today.year,
     })
